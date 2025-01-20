@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from ..schemas.rest import Request, Response
-from ..inference.infer import score
 from apitally.fastapi import ApitallyMiddleware
-import logging
 from fastapi.logger import logger as fastapi_logger
+import logging
+from ..inference.infer import score
+from ..schemas.rest import Request, Response
 
 
 

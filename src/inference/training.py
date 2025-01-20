@@ -10,7 +10,7 @@ data = pd.read_json("./data/data.jsonl", lines=True)
 
 data["text"] = data["text"].apply(nltk.sent_tokenize)
 
-data = data.explode("text")
+data = data.explode("text") # Split data into sentences, giving each the same rating as the original review
 
 def tokenize_function(examples):
     return tokenizer(examples["text"], padding="max_length", truncation=True, max_length=128)
@@ -22,8 +22,9 @@ test_dataset = Dataset.from_pandas(test_data)
 
 tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased", num_labels=3)
 
-tokenized_train = train_dataset.map(tokenize_function, batched=True)
+# Tokenize the datasets
 
+tokenized_train = train_dataset.map(tokenize_function, batched=True)
 tokenized_test = test_dataset.map(tokenize_function, batched=True)
 
 def encode_labels(examples):
@@ -38,7 +39,7 @@ tokenized_test = tokenized_test.remove_columns(["rating", "title", "images", "as
 
 model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased", num_labels=3)
 
-
+# Train for an inital period of 3 epochs
 training_args = TrainingArguments(
     output_dir = "./results",
     eval_strategy = "epoch",
