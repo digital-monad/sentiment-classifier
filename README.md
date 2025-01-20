@@ -26,6 +26,8 @@ Application monitoring is provided via Prometheus and Apitally. The api automati
 which Prometheus scrapes, and is also visualised in Apitally, offering visibility into performance and usage metrics. We observe a p95
 latency of 130ms after performing a limited synchronous load test.
 
+![dashboard](dash.png)
+
 Time permitting, there would also be model monitoring in place to catalog and detect drift, performance etc. This would be achieved
 by writing the predictions and inputs to a database (as a fastapi background task which is analagous to an async task queue to prevent
 blocking). We could then run some sort of batch process to compute statistics like data drift using embeddings, classification metrics
