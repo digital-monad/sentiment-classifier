@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from apitally.fastapi import ApitallyMiddleware
 from fastapi.logger import logger as fastapi_logger
 import logging
+import os
 from ..inference.infer import score
 from ..schemas.rest import Request, Response
 
@@ -18,7 +19,7 @@ app = FastAPI()
 # to get metrics and logs
 app.add_middleware(
     ApitallyMiddleware,
-    client_id="72bfe24d-09e6-4433-98a7-6f2b71ebc269",
+    client_id=os.environ["APITALLY_KEY"],
     env="dev",
 )
 
@@ -33,8 +34,9 @@ async def health():
     return {"status": "healthy"}
 
 # Endpoint to predict sentiment based on given text
+# Sync since cpu bound
 @app.post("/predict")
-async def predict(input: Request):
+def predict(input: Request):
     fastapi_logger.info(f"Received request: {input}")
     sentiment, pred_score = score(input.text)
     fastapi_logger.info(f"Predicted sentiment: {sentiment}, score: {pred_score}")
