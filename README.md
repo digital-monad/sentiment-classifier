@@ -9,6 +9,8 @@ full BERT algorithm that maintains a similar level of performance. This model wa
 text sequence classification tasks, and then fine-tuned on the dataset provided to obtain a sntiment classifier that works on the data.
 We use ratings as a proxy for sentiment, and train and evaluate the classifier accordingly.
 
+Time permitting, I would have set up mlflow or a similar tool in order to track models during development. this way the models can be versioned and our stored separately from the API itself.
+
 ## Inference
 
 Inference is realised as an API endpoint that accepts a POST request with a JSON payload containing the text to classify and some
